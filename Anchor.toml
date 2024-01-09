@@ -17,3 +17,12 @@ wallet = "/home/zain/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+
+[workspace]
+members = ["programs/multisig"]
+
+[programs.mainnet]
+puppet = "<address/program_id>"
+puppet_master = "<address/program_id>"
+
