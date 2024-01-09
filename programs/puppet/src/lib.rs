@@ -1,8 +1,6 @@
 use anchor_lang::prelude::*;
 
-
 declare_id!("5G64jPwDCvJsF24JvCRa5UnyeLuvtA4NYwnCVLzXifcE");
-
 
 #[program]
 pub mod puppet {
@@ -11,14 +9,13 @@ pub mod puppet {
         Ok(())
     }
 
-
-    pub fn set_data(ctx: Context<SetData>, data: u64) -> Result<()> {
+    pub fn set_data(ctx: Context<SetData>, data: u64, authority: Pubkey) -> Result<()> {
         let puppet = &mut ctx.accounts.puppet;
         puppet.data = data;
+        puppet.authority = authority;
         Ok(())
     }
 }
-
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
@@ -29,15 +26,15 @@ pub struct Initialize<'info> {
     pub system_program: Program<'info, System>,
 }
 
-
 #[derive(Accounts)]
 pub struct SetData<'info> {
     #[account(mut)]
     pub puppet: Account<'info, Data>,
+    pub authority: Signer<'info>,
 }
-
 
 #[account]
 pub struct Data {
     pub data: u64,
+    pub authority: Pubkey,
 }
